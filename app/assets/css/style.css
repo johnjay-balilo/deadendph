@@ -1,0 +1,48 @@
+* {
+	margin: 0;
+	padding: 0;
+	/*box-sizing: content-box;*/
+	font-family: Raleway;
+}
+
+body {
+	position: relative;
+	min-height: 100vh;
+	margin-bottom: 50px;
+}
+
+footer {
+	background-image: linear-gradient(rgba(255, 255, 255, 0), silver);
+	width: 100%;
+	position: absolute;
+	left: 0;
+	bottom: -60px;
+}
+
+nav {
+	background-image: linear-gradient(silver, rgba(255, 255, 255, 0));
+	margin-bottom: 20px;
+}
+
+.active2 {
+	background-color: gainsboro;
+}
+
+.active2:hover {
+	background-color: gainsboro;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+a:hover {
+	text-decoration: none;
+	color: #333;
+}
+
+#register_form {
+	width: 1000px;
+	margin: 0 auto;
+}
