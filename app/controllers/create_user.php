@@ -7,16 +7,32 @@ $lastname = $_POST['lastname'];
 $email = $_POST['email'];
 $address = $_POST['address'];
 $username = $_POST['username'];
-$password = sha1($_POST['password']);
+$password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+
+// $firstname = 1;
+// $lastname = 1;
+// $email = "i@i.com";
+// $address = 1;
+// $username = 3;
+// $password = 1;
 
 
-$sql = "INSERT INTO users(firstname, lastname, email, address, username, password) VALUES ('$firstname', '$lastname', '$email', '$address', '$username', '$password')";
+$checkusername = "SELECT * FROM users WHERE username='$username'";
+$result = mysqli_query($conn, $checkusername);
 
-if (mysqli_query($conn, $sql)) {
-	echo "success";
+$checkemail = "SELECT * FROM users WHERE email='$email'";
+$result2 = mysqli_query($conn, $checkemail);
+
+if(mysqli_num_rows($result) > 0) {
+	die("user_exists");
+} else if(mysqli_num_rows($result2) > 0) {
+	die("email_exists");
 } else {
-	echo mysqli_error($conn);
+	$sql_insert = "INSERT INTO users(firstname, lastname, email, address, username, password) VALUES ('$firstname', '$lastname', '$email', '$address', '$username', '$password')";
+	$result = mysqli_query($conn, $sql_insert);
 }
+
+mysqli_close($conn);
 
 
 

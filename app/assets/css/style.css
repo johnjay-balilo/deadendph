@@ -46,3 +46,21 @@ a:hover {
 	width: 1000px;
 	margin: 0 auto;
 }
+
+#login_form {
+	width: 500px;
+	margin: 0 auto;
+}
+
+.error {
+	color: red;
+}
+
+.quantity {
+	width: 24%;
+	margin-right: 2%;
+}
+
+.add {
+	width: 74%;
+}

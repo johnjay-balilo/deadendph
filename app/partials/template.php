@@ -29,7 +29,7 @@
 
 	<title> Deadend </title>
 </head>
-<body>
+<body class="bg-dark text-light">
 
 
 	<?php require_once("header.php"); ?>

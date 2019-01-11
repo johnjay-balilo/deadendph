@@ -1,111 +1,169 @@
+$(document).ready( () => {
 
-$("#register").click( function validate_registration_form() {
+	function validate_registration_form() {
+		let errors = 0;
+		let firstname = $("#firstname").val();
+		let lastname = $("#lastname").val();
+		let email = $("#email").val();
+		let address = $("#address").val();
+		let username = $("#username").val();
+		let password = $("#password").val();
+		let cpassword = $("#cpassword").val();
 
-			//username field is empty
-			//username already exists
-			//username is available
-			//password field is empty
-			//passwords did not match
+		// firstname validation
+		if (firstname=="") {
+			$("#firstname").next().html("First name is required.");
+			errors++;
+		} else {
+			$("#firstname").next().html("")
+		}
+
+		// lastname validation
+		if (lastname=="") {
+			$("#lastname").next().html("Last name is required.");
+			errors++;
+		} else {
+			$("#lastname").next().html("")
+		}
+
+		// email validation
+		if (!email.includes("@") || !email.includes(".com")) {
+			$("#email").next().html("Enter a valid email address.");
+			errors++;
+		} else {
+			$("#email").next().html("")
+		}
+
+		// address validation
+		if (address=="") {
+			$("#address").next().html("Address is required.");
+			errors++;
+		} else {
+			$("#address").next().html("")
+		}
+
+		// username validation
+		if (username.length < 10) {
+			$("#username").next().html("Username should be at least 10 characters.");
+			errors++;
+		} else {
+			$("#username").next().html("");
+		}
+
+		// password valdation
+		if (password.length < 8) {
+			$("#password").next().html("Provide stronger password.");
+			errors++;
+		} else {
+			$("#password").next().html("");
+		}
+
+		// confirm password validation
+		if (password !== cpassword) {
+			$("#cpassword").next().html("Passwords do not match.");
+			errors++;
+		} else {
+			$("#cpassword").next().html("");
+		}
+
+		if (errors==0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	// register button
+	$("#register").click(function() {
+		event.preventDefault()
+
+		if(validate_registration_form()) {
 
 			let errorFlag = false;
-			const firstname = $("#firstname").val();
-			const lastname = $("#lastname").val();
-			const email = $("#email").val();
-			const address = $("#address").val();
-			const username = $("#username").val();
-			const password = $("#password").val();
-			const cpassword = $("#cpassword").val();
+			let firstname = $("#firstname").val();
+			let lastname = $("#lastname").val();
+			let email = $("#email").val();
+			let address = $("#address").val();
+			let username = $("#username").val();
+			let password = $("#password").val();
+			let cpassword = $("#cpassword").val();
 
-			// firstname
-			if (firstname=="" || firstname==null) {
-				$("#firstname").next().html("Please enter firstname");
-				errorFlag = true;
-			}else {
-				$("#firstname").next().html("");
-			}
+			$.ajax({
+				url: "../controllers/create_user.php",
+				method: "POST",
+				data: {
+					"firstname": firstname,
+					"lastname": lastname,
+					"email": email,
+					"address": address,
+					"username": username,
+					"password": password
+				},
+				success: (data) =>  {
+					if (data == "user_exists") {
+						$("#username").next().html("Username already exists.");
+					} else if (data == "email_exists") {
+						$("#email").next().html("Email already exists.");
+					} else {
+						alert("user created");
+						window.location.replace("../../index.php")
+					}					
+				}
+			})
+			//end registration
 
-			// lastname
-			if (lastname=="" || lastname==null) {
-				$("#lastname").next().html("Please enter lastname");
-				errorFlag = true;
-			}else {
-				$("#lastname").next().html("");
-			}
+		}
+	}) // end register
 
-			// email
-			if (email=="" || email==null) {
-				$("#email").next().html("Please enter email");
-				errorFlag = true;
-			}else {
-				$("#email").next().html("");
-			}
+	// login button
+	$("#login").click(function() {
+		event.preventDefault()
 
-			if (username == "") {
-				$("#usererr").html("Please enter username");
-				errorFlag = true;
-			}else {
-				$.ajax({
-					method: 'POST',
-					url: '../controllers/check_username.php',
-					data: {username: username},
-					async: false,
-				}).done( data => {
-					if (data == "taken") {
-						$("#usererr").html("Username is taken");
-						errorFlag = true;
-					}else {
-						$("#usererr").css('color', 'green');
-						$("#usererr").css('background-color', 'lightgreen');
-						$("#usererr").html("Username is available");
-					}
-				});
-			}
+		let username = $("#username").val();
+		let password = $("#password").val();
 
-			if (username == "") {
-				$("#usererr").html("Please enter username");
-				errorFlag = true;
-			}else {
-				$.ajax({
-					method: 'POST',
-					url: '../controllers/check_username.php',
-					data: {username: username},
-					async: false,
-				}).done( data => {
-					if (data == "taken") {
-						$("#usererr").html("Username is taken");
-						errorFlag = true;
-					}else {
-						$("#usererr").css('color', 'green');
-						$("#usererr").css('background-color', 'lightgreen');
-						$("#usererr").html("Username is available");
-					}
-				});
-			}
-
-			if (password=="" || password==null) {
-				$("#passerr").html("Please enter password");
-				errorFlag = true;
-			}else {
-				$("#passerr").html("");
-				if (password!==cpassword) {
-					$("#cpasserr").html("Passwords do not match");
-					errorFlag = true;
+		$.ajax ({
+			url: "../controllers/authenticate.php",
+			method: "POST",
+			data: {
+				"username": username,
+				"password": password
+			},
+			success: (data) => {
+				if (data == "Login failed") {
+					$("#username").prev().prev().html("Invalid username/password");					
+				} else {
+					window.location.replace("../../index.php");					
 				}
 			}
+		})
 
-			// if (cpassword=="" || cpassword==null) {
-			// 	$("#cpasserr").html("Please confirm password");
-			// 	errorFlag = true;
-			// }else {
-			// 	$("#cpasserr").html("");
-				
-			// }
 
-			
+	}) // end login
 
-			// submit form
-			if (!errorFlag) {
-				$("#register_form").submit();
+	// prep for add to cart
+	$(document).on("click", ".add-to-cart", function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+
+		let item_id = $(e.target).attr("data-id");
+		let item_quantity = parseInt($(e.target).parent().prev().children().val());
+
+		$.ajax({
+			"url": "../controllers/update_cart.php",
+			"method": "POST",
+			"data": {
+				'item_id': item_id,
+				'item_quantity': item_quantity
+			},
+			"success": (data) => {
+				$("#cart-count").html(data);
 			}
+		})
 
-		});
+
+	})
+
+
+
+})
