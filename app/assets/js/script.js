@@ -154,13 +154,89 @@ $(document).ready( () => {
 			"method": "POST",
 			"data": {
 				'item_id': item_id,
-				'item_quantity': item_quantity
+				'item_quantity': item_quantity,
+				'update_from_cart_page': 0
 			},
 			"success": (data) => {
 				$("#cart-count").html(data);
 			}
 		})
 
+
+	})
+
+	function get_total() {
+		let total = 0;
+		$(".item_subtotal").each(function() {
+			total += parseFloat($(this).html());
+		});
+		return parseFloat(total).toFixed(2);
+	}
+
+	// item quantity change/update
+	$(".item_quantity>input").on("change", function(e) {
+		let item_id = $(e.target).attr("data-id");
+		let item_quantity = parseInt($(e.target).val());
+		let price = parseFloat($(e.target).parent().prev().attr("price"));
+		let subtotal = item_quantity * price;
+
+		$(e.target).parent().next().html(parseFloat(subtotal).toFixed(2));
+
+		$.ajax({
+			"url": "../controllers/update_cart.php",
+			"method": "POST",
+			"data": {
+				'item_id': item_id,
+				'item_quantity': item_quantity,
+				'update_from_cart_page': 1
+			},
+			"success": (data) => {
+				$("#cart-count").html(data);				
+				$("#total_price").html("&#165; " + get_total());
+			}
+		})
+	})
+
+
+	// remove from cart functionality
+	$(document).on("click", ".remove-from-cart", function(e) {
+		let item_id = $(e.target).attr("data-id");		
+
+		$.ajax({
+			"url": "../controllers/update_cart.php",
+			"method": "POST",
+			"data": {
+				'item_id': item_id,
+				'item_quantity': 0,
+				'update_from_cart_page': 2
+			},
+			"beforeSend": () => {
+				return confirm("Are you sure you want to delete?");
+			},
+			"success": (data) => {
+				$(e.target).parents('tr').fadeOut();
+				$("#cart-count").html(data);				
+				$("#total_price").html("&#165; " + get_total());
+			}
+		})
+
+	})
+
+	// empty cart functionality
+	$("#empty_cart").click(function(e) {
+		$(e.target).parents('tfoot').prev().children('tr').remove();
+
+		$.ajax({
+			"url": "../controllers/update_cart.php",
+			"method": "POST",
+			"data": {
+				'update_from_cart_page': 3
+			},
+			"success": (data) => {
+				$("#cart-count").html(0);				
+				$("#total_price").html("&#165; " + get_total());
+			}
+		})
 
 	})
 

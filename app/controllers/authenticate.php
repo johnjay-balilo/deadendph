@@ -15,6 +15,7 @@ $user_info = mysqli_fetch_assoc($result);
 
 if (password_verify($password, $user_info['password'])) {
 	$_SESSION['user_info'] = $user_info;
+	$_SESSION['user'] = $username;
 	echo $_SESSION['user_info'];
 }else {
 	$_SESSION['error_message'] = "Login failed";
