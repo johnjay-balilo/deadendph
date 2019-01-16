@@ -132,8 +132,8 @@ $(document).ready( () => {
 			success: (data) => {
 				if (data == "Login failed") {
 					$("#username").prev().prev().html("Invalid username/password");					
-				} else {
-					window.location.replace("../../index.php");					
+				} else {					
+					window.location.replace(document.referrer);
 				}
 			}
 		})
@@ -238,6 +238,129 @@ $(document).ready( () => {
 			}
 		})
 
+	})
+
+
+
+	//submit profile form updates
+	$("#update_info").click(function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+
+		let errors = 0;
+		let firstname = $("#firstname").val();
+		let lastname = $("#lastname").val();
+		let email = $("#email").val();
+		let address = $("#address").val();
+
+		// firstname validation
+		if (firstname=="") {
+			$("#firstname").next().html("First name is required.");
+			errors++;
+		} else {
+			$("#firstname").next().html("")
+		}
+
+		// lastname validation
+		if (lastname=="") {
+			$("#lastname").next().html("Last name is required.");
+			errors++;
+		} else {
+			$("#lastname").next().html("")
+		}
+
+		// email validation
+		if (!email.includes("@") || !email.includes(".com")) {
+			$("#email").next().html("Enter a valid email address.");
+			errors++;
+		} else {
+			$("#email").next().html("")
+		}
+
+		// address validation
+		if (address=="") {
+			$("#address").next().html("Address is required.");
+			errors++;
+		} else {
+			$("#address").next().html("")
+		}
+
+		if (errors==0) {
+			$("#update_user_details").submit();
+		}
+		
+	})
+
+	// change password validation
+	function validate_change_password_form() {
+		let errors = 0;
+		let old_password = $("#old_password").val();
+		let new_password = $("#new_password").val();
+		let cnew_password = $("#cnew_password").val();
+
+		// password valdation
+		if (new_password.length < 8) {
+			$("#new_password").next().html("Provide stronger password.");
+			errors++;
+		} else {
+			$("#new_password").next().html("");
+		}
+
+		// confirm password validation
+		if (new_password !== cnew_password) {
+			$("#cnew_password").next().html("Passwords do not match.");
+			errors++;
+		} else {
+			$("#cnew_password").next().html("");
+		}
+
+		if (errors==0) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+	// change password
+	$("#change_password_btn").click(function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+
+		console.log(validate_change_password_form());
+
+		if (validate_change_password_form()) {
+
+			let user_id = $("#old_password").prev().prev().val();
+			let old_password = $("#old_password").val();
+			let new_password = $("#new_password").val();	
+
+			$.ajax({
+				url: "../controllers/change_password.php",
+				method: "POST",
+				data: {
+					"user_id": user_id,
+					"old_password": old_password,
+					"new_password": new_password
+				},
+				success: (data) => {
+					if (data == "incorrect password") {
+						$("#old_password").next().html("Incorrect password.");
+					} else if (data == "correct password") {
+						alert("Password successfully changed.")
+						$("#old_password").next().html("");
+						$("#old_password").val("");
+						$("#new_password").val("");
+						$("#cnew_password").val("");
+					}
+
+				}
+			})
+
+		}
+
+		
+		
 	})
 
 

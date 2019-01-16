@@ -9,13 +9,6 @@ $address = $_POST['address'];
 $username = $_POST['username'];
 $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
-// $firstname = 1;
-// $lastname = 1;
-// $email = "i@i.com";
-// $address = 1;
-// $username = 3;
-// $password = 1;
-
 
 $checkusername = "SELECT * FROM users WHERE username='$username'";
 $result = mysqli_query($conn, $checkusername);

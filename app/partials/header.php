@@ -11,6 +11,18 @@
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav ml-auto">
 
+			<?php if (isset($_SESSION['user_info'])) { ?>
+			<li class="nav-item">
+				<a class="nav-link" href="../views/profile.php">Profile</a>
+			</li>
+			<?php } ?>
+
+			<?php if ($_SESSION['user'] == "johnbalilo") { ?>
+			<li class="nav-item">
+				<a class="nav-link" href="../views/new_item.php"> Add Item </a>
+			</li>
+			<?php } ?>
+
 			<li class="nav-item">
 				<a class="nav-link" href="catalog.php">Catalog</a>
 			</li>
