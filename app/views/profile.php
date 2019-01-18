@@ -13,7 +13,7 @@
 					<a class="list-group-item list-group-item-action list-group-item-dark" href="#change_pass" data-toggle="list" role="tab">
 						Change Password
 					</a>
-					<a class="list-group-item list-group-item-action list-group-item-dark" href="#history" data-toggle="list" role="tab">
+					<a class="list-group-item list-group-item-action list-group-item-dark <?php if($_SESSION['user'] == 1) {echo "disabled";} ?>" href="#history" data-toggle="list" role="tab">
 						Order History
 					</a>
 				</div>
