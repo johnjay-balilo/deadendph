@@ -7,15 +7,15 @@
 			
 			<h1>
 				<?php 
-				if (isset($_SESSION['user_info'])) {
-					echo "Hello, ".$_SESSION['user_info']['username'];
-				} else {
+				// if (isset($_SESSION['user_info'])) {
+				// 	echo "Hello, ".$_SESSION['user_info']['username'];
+				// } else {
 					echo "Deadend";
-				}
+				// }
 				 ?>				 	
 			</h1>
 
-			<p>Back</p>
+			<p> Music Store </p>
 
 
 		</div> <!-- end jumbo -->
