@@ -174,8 +174,8 @@ if ($payment_mode_id == 1) {
 
     $redirectUrls = new RedirectUrls();
     $redirectUrls
-        ->setReturnUrl('http://192.168.10.27/deadend/app/controllers/pay.php?success=true')
-        ->setCancelUrl('http://192.168.10.27/deadend/app/controllers/pay.php?success=false');
+        ->setReturnUrl('https://deadendph.herokuapp.com/app/controllers/pay.php?success=true')
+        ->setCancelUrl('https://deadendph.herokuapp.com/app/controllers/pay.php?success=false');
 
     $payment = new Payment();
     $payment->setIntent('sale')
