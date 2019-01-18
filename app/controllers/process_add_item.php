@@ -13,7 +13,7 @@ move_uploaded_file($_FILES['image']['tmp_name'], "./../assets/images/".$image);
 $sql = "INSERT INTO items (name, price, description, image_path, category_id) VALUES('$name', $price, '$description', '$image', $category_id)";
 $result = mysqli_query($conn, $sql);
 
-header("Location: ../views/catalog.php");
+header("Location: ../views/items.php");
 
 
 

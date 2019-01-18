@@ -3,12 +3,9 @@
 <?php function get_page_content() { 
 	global $conn;
 
-	if ($_SESSION['user'] !== "johnbalilo") {
-		echo "Access denied.";
-		echo "Notice: Undefined index: name in /opt/lampp/htdocs/deadend/app/controllers/process_add_item.php on line 6";
-	} else {
-
-	?>
+	if ($_SESSION['user_info']['roles_id'] == 2) {
+		header("Location: ./error.php");
+	} else if ($_SESSION['user_info']['roles_id'] == 1) { ?>
 
 	<div class="container">
 		<div class="row">
@@ -21,7 +18,7 @@
 
 					<div class="form-group">
 						<label for="price"> Price </label>
-						<input type="text" class="form-control" name="price" id="price" required>
+						<input type="number" class="form-control" name="price" id="price" required>
 					</div>
 
 					<div class="form-group">
@@ -66,9 +63,5 @@
 
 
 
-
-
-
-
-
-<?php }} ?>
+<?php }
+} ?>

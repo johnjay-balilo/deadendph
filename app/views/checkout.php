@@ -1,11 +1,11 @@
 <?php require_once '../partials/template.php' ?>
 
 <?php function get_page_content() { 
-	global $conn; ?>
+	global $conn;?>
 
-	<?php 
-
-	if (!isset($_SESSION['user_info'])) {
+	<?php if (isset($_SESSION['user_info']) && $_SESSION['user_info']['roles_id'] == 1) {
+		header("Location: ./error.php");
+	} else if (!isset($_SESSION['user_info'])) {
 		header("Location: ./login.php");
 	} else { ?>
 
@@ -18,11 +18,36 @@
 				<div class="row mt-4">
 					<div class="col-4">
 						<div class="form-group">
-							<label for="addressLine1"> Shipping Address </label>
+							<h4><label for="addressLine1"> Shipping Address </label></h4>
 							<input type="text" class="form-control" name="addressLine1" value="<?php echo $_SESSION['user_info']['address']; ?>">
 						</div> <!-- end form group -->
 					</div> <!-- end col -->
+
+					<div class="col-sm-4">
+						<h4><label for="payment_mode">Payment Modes</label></h4>
+						<select name="payment_mode" id="payment_mode" class="form-control">
+							<?php 
+							$sql = "SELECT * FROM payment_modes";
+							$result = mysqli_query($conn, $sql);
+
+							foreach ($result as $payment_mode) { 
+								extract($payment_mode);?>
+								<option value="<?php echo $id; ?>">
+									<?php echo $name; ?>
+								</option>						
+							<?php } ?>
+						</select>
+					</div> <!-- end col -->
+
 				</div> <!-- end row -->
+
+
+				
+
+
+
+
+
 				<div class="row">
 					<h4> Order Summary </h4>
 				</div>
@@ -94,16 +119,6 @@
 
 
 	<?php } ?>
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -1,6 +1,10 @@
 <?php require_once("../partials/template.php") ?>
 
 <?php function get_page_content() { ?>
+
+	<?php if (isset($_SESSION['user_info'])) {
+		header("Location: ../../index.php");
+	} ?>
 	
 	<form id="register_form">
 		<h1 class="text-center">Register</h1>

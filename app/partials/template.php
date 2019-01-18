@@ -25,7 +25,7 @@
 	<link rel="icon" type="text/css" href="../assets/images/d.jpg">
 
 	<!-- google fonts -->
-	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
 
 	<title> Deadend </title>
 </head>
@@ -35,13 +35,21 @@
 	<?php require_once("header.php"); ?>
 	<?php require_once("../controllers/connect.php"); ?>
 
+	<div id="main_body" class="hidden">
+
 	<?php 
 
-		get_page_content();
+		get_page_content();?>
 
-		mysqli_close($conn);
+		<div id="sub_body" class="hidden"></div>
 
-	 ?>
+		<?php mysqli_close($conn);
+
+	?>
+
+
+
+	</div>
 
 	<?php require_once("footer.php"); ?>
 

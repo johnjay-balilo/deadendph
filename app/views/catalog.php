@@ -1,9 +1,11 @@
 <?php require_once '../partials/template.php'; ?>
 
-<?php function get_page_content() { ?>
+<?php function get_page_content() { 
+	global $conn;?>
 
-	<?php require_once '../controllers/connect.php';
-	global $conn; ?>
+	<?php if (isset($_SESSION['user_info']) && $_SESSION['user_info']['roles_id'] == 1) {
+		header("Location: ./error.php");
+	} else { ?>
 
 	<div class="container-fluid">
 		<div class="row">
@@ -33,7 +35,7 @@
 
 						<?php echo $category['name']; ?>
 
-						 </a>
+						</a>
 
 					<?php } ?>
 					
@@ -43,8 +45,8 @@
 
 					<h4> Sort </h4>
 
-					<a class="list-group-item <?php if($_SESSION['s']=="asc") { echo " active2"; } ?>" href="../controllers/sort.php?sort=asc"> Lowest to Highest </a>
-					<a class="list-group-item <?php if($_SESSION['s']=="desc") { echo " active2"; } ?>" href="../controllers/sort.php?sort=desc"> Highest to Lowest </a>
+					<a class="list-group-item list-group-item-action <?php if($_SESSION['s']=="asc") { echo " active2"; } ?>" href="../controllers/sort.php?sort=asc"> Lowest to Highest </a>
+					<a class="list-group-item list-group-item-action <?php if($_SESSION['s']=="desc") { echo " active2"; } ?>" href="../controllers/sort.php?sort=desc"> Highest to Lowest </a>
 
 				</div> <!-- end list group -->
 
@@ -76,7 +78,7 @@
 					foreach ($items as $item) { ?>
 						<div class="col-lg-3 col-md-6">
 							<div class="card h-100 bg-secondary">
-								<img class="card-img-top" src="../assets/images/<?php echo $item['image_path']; ?>">
+								<img class="card-img-top" src="../assets/images/<?php if ($item['image_path'] == ""){echo "noimage.jpg";}else{echo $item['image_path'];} ?>">
 								<div class="card-body">
 									<h5 class="card-title">
 										<?php echo $item['name']; ?>
@@ -115,4 +117,5 @@
 
 
 
-<?php } ?>
+<?php }
+} ?>

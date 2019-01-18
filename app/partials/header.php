@@ -13,16 +13,25 @@
 
 			<?php if (isset($_SESSION['user_info'])) { ?>
 			<li class="nav-item">
-				<a class="nav-link" href="../views/profile.php">Profile</a>
+				<a id="profile_link" class="nav-link" href="../views/profile.php">Welcome, <?php echo $_SESSION['user_info']['firstname']; ?></a>
 			</li>
 			<?php } ?>
 
-			<?php if ($_SESSION['user'] == "johnbalilo") { ?>
+			<?php if (isset($_SESSION['user_info']) && $_SESSION['user_info']['roles_id'] == 1) { ?>
 			<li class="nav-item">
-				<a class="nav-link" href="../views/new_item.php"> Add Item </a>
+				<a id="users_link" class="nav-link" href="../views/users.php"> Users </a>
+			</li>
+
+			<li class="nav-item">
+				<a class="nav-link" href="../views/orders.php"> Orders </a>
+			</li>
+
+			<li class="nav-item">
+				<a class="nav-link" href="../views/items.php"> Items </a>
 			</li>
 			<?php } ?>
 
+			<?php if (!isset($_SESSION['user_info']) || $_SESSION['user_info']['roles_id'] == 2) { ?>
 			<li class="nav-item">
 				<a class="nav-link" href="catalog.php">Catalog</a>
 			</li>
@@ -37,7 +46,9 @@
 					}
 					 ?>
 				</span></a>
-			</li>
+			</li>				
+			<?php } ?>
+			
 
 			<!-- if logged in -->
 			<?php if (isset($_SESSION['user_info'])) { ?>

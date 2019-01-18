@@ -1,6 +1,11 @@
 <?php require_once '../partials/template.php' ?>
 
-<?php function get_page_content() { ?>
+<?php function get_page_content() { 
+	global $conn;?>
+
+	<?php if (isset($_SESSION['user_info']) && $_SESSION['user_info']['roles_id'] == 1) {
+		header("Location: ./error.php");
+	} else { ?>
 
 	<div class="container">
 
@@ -9,9 +14,7 @@
 			<?php 
 			global $conn;
 			$cart_total = 0; 
-			?>
-
-			<?php if (isset($_SESSION['cart']) && count($_SESSION['cart']) != 0) { ?>		
+			?>				
 
 			<thead class="thead-light">
 				<tr>
@@ -22,6 +25,8 @@
 					<td class="action">Action</td>
 				</tr>
 			</thead>
+
+			<?php if (isset($_SESSION['cart']) && count($_SESSION['cart']) != 0) { ?>	
 
 			<tbody>
 				<?php 
@@ -49,7 +54,7 @@
 					<td class="item_subtotal">
 						<?php echo bcadd($subtotal, 0, 2) ?>						
 					</td>
-					<td class="action text-center">			
+					<td class="action">			
 						<button class="btn btn-danger remove-from-cart" data-dismiss="modal" data-id="<?php echo $item['id']; ?>"> Remove from cart </button>
 					</td>
 				</tr>
@@ -74,7 +79,7 @@
 
 			<tfoot>
 				<tr>
-					<td class="text-right font-weight-bold" colspan="3">
+					<td class="text-right font-weight-bold" colspan="2">
 						<button  id="empty_cart" class="btn btn-danger"> Empty cart </button>
 					</td>
 					<td class="text-right font-weight-bold"> Total </td>
@@ -83,9 +88,52 @@
 						<?php echo "&#165; " . number_format($cart_total, 2); ?>
 					</td>
 					<td>
-						<a class="btn btn-primary" href="./checkout.php">
-							Checkout
-						</a>
+
+						<?php if (isset($_SESSION['user'])) { ?>
+							<a class="btn btn-primary" href="./checkout.php">
+								Checkout
+							</a>
+						<?php } else { ?>						
+							<button type="button" id="checkout" class="btn btn-primary" data-toggle="modal" data-target="#login-modal"> Checkout </button>
+
+							<div id="login-modal" class="modal fade">
+								<div class="modal-dialog" role="document">
+
+									<div class="modal-content bg-dark">
+										<header class="modal-header">
+											<h5 class="modal-title"> It seems you are not logged in! </h5>
+											<button class="close" data-dismiss="modal">
+												<span> &times; </span>
+											</button>
+										</header> <!-- end modal header -->
+
+										<div class="modal-body">
+											<form>
+												<div class="form-group">
+													<p class="error"> </p>
+													<label> Username:  </label>
+													<input id="username" type="text" name="username" class="form-control">	
+												</div>
+												<div class="form-group">
+													<label> Password:  </label>
+													<input id="password" type="password" name="password" class="form-control">
+												</div>
+
+												<div class="text-center py-4 row">
+													<div class="col-6">
+														<a href="register.php" class="btn btn-block btn-outline-secondary"> Register </a>
+													</div>
+													<div class="col-6">
+														<button id="login" class="btn btn-block btn-outline-light"> Login </button>
+													</div>
+												</div>
+											</form>
+										</div> <!-- end modal body -->										
+									</div>
+								</div>
+							</div> <!-- end modal -->
+
+						<?php } ?>
 					</td>
 				</tr>
 			</tfoot>
@@ -100,4 +148,5 @@
 
 
 
-<?php } ?>
+<?php }
+} ?>

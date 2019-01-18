@@ -1,5 +1,8 @@
 $(document).ready( () => {
 
+	// main body fadeIn
+	$("#main_body").fadeIn(300);
+
 	function validate_registration_form() {
 		let errors = 0;
 		let firstname = $("#firstname").val();
@@ -76,6 +79,7 @@ $(document).ready( () => {
 	// register button
 	$("#register").click(function() {
 		event.preventDefault()
+		event.stopPropagation();
 
 		if(validate_registration_form()) {
 
@@ -106,18 +110,19 @@ $(document).ready( () => {
 						$("#email").next().html("Email already exists.");
 					} else {
 						alert("user created");
+						$("#email").next().html(data);
 						window.location.replace("../../index.php")
 					}					
 				}
 			})
 			//end registration
-
 		}
 	}) // end register
 
 	// login button
-	$("#login").click(function() {
-		event.preventDefault()
+	$("#login").click(function(e) {
+		e.preventDefault()
+		e.stopPropagation();
 
 		let username = $("#username").val();
 		let password = $("#password").val();
@@ -161,8 +166,6 @@ $(document).ready( () => {
 				$("#cart-count").html(data);
 			}
 		})
-
-
 	})
 
 	function get_total() {
@@ -219,12 +222,12 @@ $(document).ready( () => {
 				$("#total_price").html("&#165; " + get_total());
 			}
 		})
-
 	})
 
 	// empty cart functionality
 	$("#empty_cart").click(function(e) {
 		$(e.target).parents('tfoot').prev().children('tr').remove();
+		$(e.target).parents('tfoot').prev().html('<tr><td class="text-center" colspan="6"> No items in cart </td></tr>');
 
 		$.ajax({
 			"url": "../controllers/update_cart.php",
@@ -237,7 +240,6 @@ $(document).ready( () => {
 				$("#total_price").html("&#165; " + get_total());
 			}
 		})
-
 	})
 
 
@@ -353,14 +355,124 @@ $(document).ready( () => {
 						$("#new_password").val("");
 						$("#cnew_password").val("");
 					}
-
 				}
 			})
+		}		
+	})
 
-		}
+	// delete item functionality
+	$(document).on("click", ".delete-item", function(e) {
+		let item_id = $(e.target).attr("data-id");
+		let image_path = $(e.target).attr("data-path");
 
-		
-		
+		$.ajax({
+			"url": "../controllers/delete_item.php",
+			"method": "POST",
+			"data": {
+				'item_id': item_id,
+				'image_path': image_path
+			},
+			"beforeSend": () => {
+				return confirm("Are you sure you want to delete this item?");
+			},
+			"success": (data) => {
+				if (data == "") {
+					$(e.target).parents('.item-card').fadeOut();
+				} else {
+					alert(data);
+				}
+			}
+		})
+	})
+
+	// grant admin
+	$(document).on("click", ".grant-admin", function(e) {
+		let username = $(e.target).parent().siblings('.username').html();
+		let roles_id = $(e.target).attr('roles_id');
+
+		$.ajax({
+			"url": "../controllers/grant_admin.php",
+			"method": "POST",
+			"data": {
+				'username': username,
+				'roles_id': roles_id
+			},			
+			"success": (data) => {
+				if ($("#profile_link").html() == "Welcome, "+$(e.target).parent().siblings('.firstname').html()) {
+					alert("You cannot change current admin's role.")
+				} else {
+					$(e.target).parent().siblings('.role').html(data);					
+					$(e.target).toggle();
+					$(e.target).siblings('.grant-admin').toggle();
+					if ($(e.target).attr('roles_id') == 1) {
+						$(e.target).attr('roles_id', 2);
+						$(e.target).siblings('.grant-admin').attr('roles_id', 2);
+					} else if ($(e.target).attr('roles_id') == 2) {
+						$(e.target).attr('roles_id', 1);
+						$(e.target).siblings('.grant-admin').attr('roles_id', 1);
+					}		
+				}	
+			}
+		})
+	})
+
+
+	// update order status
+	// complete order
+	$(document).on("click", ".complete-order", function(e) {
+		let order_id = $(e.target).attr('order-id');
+		$.ajax({
+			"url": "../controllers/complete_order.php",
+			"method": "POST",
+			"data": {
+				'order_id': order_id
+			},
+			"success": (data) => {
+				$(e.target).parent().prev().html(data);
+				$(e.target).parent().children().remove();
+				$("#users_table").load(location.href+" #users_table>");
+			}
+		})
+	})
+
+	// cancel order
+	$(document).on("click", ".cancel-order", function(e) {
+		let order_id = $(e.target).attr('order-id');
+		$.ajax({
+			"url": "../controllers/cancel_order.php",
+			"method": "POST",
+			"data": {
+				'order_id': order_id
+			},
+			"success": (data) => {
+				$(e.target).parent().prev().html(data);
+				$(e.target).parent().children().remove();
+				$("#users_table").load(location.href+" #users_table>*","");
+			}
+		})
+	})
+
+
+	//------------------------------------------------------------------
+	//------------------------------------------------------------------
+	//------------------------------------------------------------------
+
+	$("#profile_link").click(function(e) {
+		e.preventDefault();
+		$("#sub_body").fadeOut(function() {
+			$("#sub_body").load("./profile2.php", function() {
+				$("#sub_body").fadeIn(300);
+			});
+		});		
+	})
+
+	$("#users_link").click(function(e) {
+		e.preventDefault();
+		$("#sub_body").fadeOut(function() {
+			$("#sub_body").load("./users2.php", function() {
+				$("#sub_body").fadeIn(300);
+			});
+		});		
 	})
 
 

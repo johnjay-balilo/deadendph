@@ -2,7 +2,11 @@
 	margin: 0;
 	padding: 0;
 	/*box-sizing: content-box;*/
-	font-family: Raleway;
+	font-family: 'Ubuntu', sans-serif;
+}
+
+.hidden {
+	display: none;
 }
 
 body {
@@ -34,12 +38,12 @@ nav {
 
 a {
 	text-decoration: none;
-	color: black;
+	color: dimgrey;
 }
 
 a:hover {
 	text-decoration: none;
-	color: #333;
+	color: grey;
 }
 
 #register_form {
@@ -67,4 +71,13 @@ a:hover {
 
 .cart_img {
 	width: 100px;
+}
+
+.card-img-top {
+	height: 50%;
+}
+
+.edit-item-image {
+	width: 200px;
+	height: 200px;
 }

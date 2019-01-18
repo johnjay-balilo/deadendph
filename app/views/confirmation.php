@@ -2,6 +2,12 @@
 
 <?php function get_page_content() { ?>
 
+	<?php if ($_SESSION['user_info']['roles_id'] == 1) {
+		header("Location: ./error.php");
+	} else if ($_SESSION['user_info']['roles_id'] == 2) {
+
+	?>
+
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
@@ -36,4 +42,5 @@
 
 
 
-<?php } ?>
+<?php }
+} ?>

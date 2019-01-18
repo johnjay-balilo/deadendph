@@ -7,13 +7,13 @@
 		<div class="row">
 			<div class="col-lg-3">
 				<div class="list-group" id="list-tab" role="tablist">
-					<a class="list-group-item list-group-item-dark active" href="#profile" data-toggle="list" role="tab">
+					<a class="list-group-item list-group-item-action list-group-item-dark active" href="#profile" data-toggle="list" role="tab">
 						User Information
 					</a>
-					<a class="list-group-item list-group-item-dark" href="#change_pass" data-toggle="list" role="tab">
+					<a class="list-group-item list-group-item-action list-group-item-dark" href="#change_pass" data-toggle="list" role="tab">
 						Change Password
 					</a>
-					<a class="list-group-item list-group-item-dark" href="#history" data-toggle="list" role="tab">
+					<a class="list-group-item list-group-item-action list-group-item-dark" href="#history" data-toggle="list" role="tab">
 						Order History
 					</a>
 				</div>
