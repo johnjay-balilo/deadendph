@@ -15,7 +15,7 @@
 				 ?>				 	
 			</h1>
 
-			<p> Music Store </p>
+			<p> Music & Artist Merchandise Store </p>
 
 
 		</div> <!-- end jumbo -->
