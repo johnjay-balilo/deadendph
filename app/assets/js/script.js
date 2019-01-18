@@ -457,23 +457,23 @@ $(document).ready( () => {
 	//------------------------------------------------------------------
 	//------------------------------------------------------------------
 
-	$("#profile_link").click(function(e) {
-		e.preventDefault();
-		$("#sub_body").fadeOut(function() {
-			$("#sub_body").load("./profile2.php", function() {
-				$("#sub_body").fadeIn(300);
-			});
-		});		
-	})
+	// $("#profile_link").click(function(e) {
+	// 	e.preventDefault();
+	// 	$("#sub_body").fadeOut(function() {
+	// 		$("#sub_body").load("./profile2.php", function() {
+	// 			$("#sub_body").fadeIn(300);
+	// 		});
+	// 	});		
+	// })
 
-	$("#users_link").click(function(e) {
-		e.preventDefault();
-		$("#sub_body").fadeOut(function() {
-			$("#sub_body").load("./users2.php", function() {
-				$("#sub_body").fadeIn(300);
-			});
-		});		
-	})
+	// $("#users_link").click(function(e) {
+	// 	e.preventDefault();
+	// 	$("#sub_body").fadeOut(function() {
+	// 		$("#sub_body").load("./users2.php", function() {
+	// 			$("#sub_body").fadeIn(300);
+	// 		});
+	// 	});		
+	// })
 
 
 
