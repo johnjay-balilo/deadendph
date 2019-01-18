@@ -66,9 +66,18 @@
 						<div class="form-control">
 
 							<img src="../assets/images/<?php if ($item['image_path'] == ""){echo "noimage.jpg";}else{echo $item['image_path'];} ?>" class="img-fluid edit-item-image">
-							<button type="submit" class="btn btn-primary" form="unlink-form">Unlink Image</button>
+							<br><br>
+							<div class="row">								
+								<div class="col-9">
+									<input type="file" class="form-control" name="image" id="image">
+								</div>
+								<div class="col-3">
+									<button type="submit" class="btn btn-danger" form="unlink-form">Unlink Image</button>
+								</div>
+							</div>
+							
 											
-							<input type="file" class="form-control" name="image" id="image">
+							
 						</div>
 						
 					</div>
