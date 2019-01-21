@@ -1,3 +1,4 @@
+<?php $page_title = "Deadend" ?>
 <?php require_once '../partials/template.php' ?>
 
 <?php function get_page_content() { ?>

@@ -27,7 +27,7 @@
 	<!-- google fonts -->
 	<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
 
-	<title> Deadend </title>
+	<title> <?php echo $page_title; ?> | Deadend </title>
 </head>
 <body class="bg-dark text-light">
 

@@ -1,3 +1,4 @@
+<?php $page_title = "Catalog" ?>
 <?php require_once '../partials/template.php'; ?>
 
 <?php function get_page_content() { 
@@ -76,7 +77,7 @@
 					$items = mysqli_query($conn, $sql);
 					
 					foreach ($items as $item) { ?>
-						<div class="col-lg-3 col-md-6">
+						<div class="col-lg-3 col-md-3">
 							<div class="card h-100 bg-secondary">
 								<img class="card-img-top" src="../assets/images/<?php if ($item['image_path'] == ""){echo "noimage.jpg";}else{echo $item['image_path'];} ?>">
 								<div class="card-body">
