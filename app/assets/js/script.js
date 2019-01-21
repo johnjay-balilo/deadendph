@@ -360,6 +360,45 @@ $(document).ready( () => {
 		}		
 	})
 
+	// forgot password
+	$("#reset_password_btn").click(function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+
+			let username = $("#username").val();
+			let firstname = $("#firstname").val();
+			let lastname = $("#lastname").val();	
+			let email = $("#email").val();
+
+			$.ajax({
+				url: "../controllers/reset_password.php",
+				method: "POST",
+				data: {
+					"username": username,
+					"firstname": firstname,
+					"lastname": lastname,
+					"email": email
+				},
+				success: (data) => {
+					if (data === "fail") {
+						$("#alert").html("No user found.");
+						$("#alert").addClass("alert-danger");
+						$("#alert").show();
+					}else{
+						$("#alert").html("Password reset successful");
+						$("#alert").addClass("alert-success");
+						$("#alert").show();
+						$("#username").val("");
+						$("#firstname").val("");
+						$("#lastname").val("");
+						$("#email").val("");
+
+					}
+
+				}
+			})		
+	})
+
 	// delete item functionality
 	$(document).on("click", ".delete-item", function(e) {
 		let item_id = $(e.target).attr("data-id");
